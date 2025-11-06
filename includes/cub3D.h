@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include <stdlib.h>
+# include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <math.h>
@@ -49,7 +50,7 @@
 # define ERR_TEX_MISS       "Error\nMissing texture path (NO/SO/WE/EA)\n"
 # define ERR_TEX_DUP        "Error\nDuplicate texture identifier\n"
 # define ERR_TEX_PATH       "Error\nInvalid texture path\n"
-# define ERR_TEX_LOAD       "Error\nFailed to load texture (check path/format)\n"
+# define ERR_TEX_LOAD       "Error\nFailed to load texture (check path)\n"
 # define ERR_TEX_FORMAT     "Error\nTexture must be .png or .xpm\n"
 
 // Color errors
@@ -82,12 +83,12 @@ typedef struct s_map
 
 typedef struct s_textures
 {
-	mlx_image_t	*north;
-	mlx_image_t	*south;
-	mlx_image_t	*west;
-	mlx_image_t	*east;
-	unsigned int floor;
-	unsigned int ceiling;
+	mlx_image_t		*north;
+	mlx_image_t		*south;
+	mlx_image_t		*west;
+	mlx_image_t		*east;
+	unsigned int	floor;
+	unsigned int	ceiling;
 }			t_textures;
 
 typedef struct s_player
