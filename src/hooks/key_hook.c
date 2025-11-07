@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 18:24:25 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 18:58:56 by bboulmie         ###   ########.fr       */
+/*   Created: 2025/11/07 18:27:15 by bboulmie          #+#    #+#             */
+/*   Updated: 2025/11/07 18:58:37 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// Prints error message to stderr and returns FAILURE
-int	error_msg(const char *msg)
+// Handles keyboard input
+void	key_hook(mlx_key_data_t keydata, void *param)
 {
-	write(2, msg, ft_strlen(msg));
-	return (FAILURE);
-}
+	t_app	*app;
 
-void	fatal_error(const char *msg, t_app *app)
-{
-	error_msg(msg);
-	cleanup(app);
-	exit(FAILURE);
+	app = param;
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		mlx_close_window(app->mlx);
 }

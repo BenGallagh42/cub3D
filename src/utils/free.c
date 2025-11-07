@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 18:24:25 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 18:58:56 by bboulmie         ###   ########.fr       */
+/*   Created: 2025/11/07 18:24:34 by bboulmie          #+#    #+#             */
+/*   Updated: 2025/11/07 18:59:16 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// Prints error message to stderr and returns FAILURE
-int	error_msg(const char *msg)
+// Frees a null‑terminated array of strings
+void	free_split(char **split)
 {
-	write(2, msg, ft_strlen(msg));
-	return (FAILURE);
-}
+	int	i;
 
-void	fatal_error(const char *msg, t_app *app)
-{
-	error_msg(msg);
-	cleanup(app);
-	exit(FAILURE);
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
 }

@@ -152,4 +152,7 @@ int		error_msg(const char *msg);
 void	free_split(char **split);
 int		rgb_to_int(int r, int g, int b);
 
+// Testing
+void	init_test_map(t_app *app);
+
 #endif

@@ -6,11 +6,11 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:31:47 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 15:36:12 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/11/07 18:22:31 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 // Initialize all pointers
 static void	init_app(t_app *app)

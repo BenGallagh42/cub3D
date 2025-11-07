@@ -6,11 +6,14 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:10:56 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/06 19:11:08 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/11/07 18:59:56 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "cub3d.h"
+
+// Converts RGB (0‑255) to MLX42 ARGB color (0xAARRGGBB)
 int	rgb_to_int(int r, int g, int b)
 {
-	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
+	return (0xFF000000 | (r << 16) | (g << 8) | b);
 }
