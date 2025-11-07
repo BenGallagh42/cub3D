@@ -6,7 +6,7 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:31:47 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/06 19:26:17 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:36:12 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	cleanup(t_app *app)
 }
 
 // Program main function
-int32_t	main(int ac, char **av)
+int32_t	main(int ac, char **av) // int32_t because mostly used in MLX42 and safer than just int
 {
 	t_app	app;
 
