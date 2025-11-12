@@ -6,11 +6,11 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 17:58:48 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 18:56:01 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:37:46 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "render.h"
+#include "cub3d.h"
 
 // Draws floor and ceiling using parsed or test colors
 void	draw_background(t_app *app)

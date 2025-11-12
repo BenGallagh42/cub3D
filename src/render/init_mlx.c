@@ -6,11 +6,11 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 15:59:34 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 18:55:34 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:37:51 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "render.h"
+#include "cub3d.h"
 
 // Initializes MLX42: creates window and render image
 int	init_mlx(t_app *app)

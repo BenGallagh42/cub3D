@@ -6,12 +6,11 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 18:14:02 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 18:37:05 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:39:57 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "render.h"
 
 // Initialize all app pointers to NULL
 static void	init_app(t_app *app)

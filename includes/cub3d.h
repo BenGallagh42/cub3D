@@ -137,15 +137,30 @@ typedef struct s_app
 }			t_app;
 
 // FUNCTIONS ///
+
 int		parse_file(t_app *app, char *path);
 int		load_textures(t_app *app);
 int		init_mlx(t_app *app);
-void	render_frame(t_app *app);
 void	cleanup(t_app *app);
 
-// Hooks
-void	key_hook(mlx_key_data_t keydata, void *param);
+// RENDER FUNCTIONS
+// Init mlx + frame loop
+int		init_mlx(t_app *app);
+void	draw_background(t_app *app);
 void	loop_hook(void *param);
+
+// Raycasting functions
+void	cast_all_rays(t_app *app);
+void	perform_dda(t_app *app);
+void	calculate_wall_distance(t_app *app);
+void	draw_wall_stripe(t_app *app, int x);
+
+
+// HOOKS FUNCTIONS
+void	key_hook(mlx_key_data_t keydata, void *param);
+void	update_movement(t_app *app);
+void	rotate_left(t_app *app);
+void	rotate_right(t_app *app);
 
 // Utils
 int		error_msg(const char *msg);

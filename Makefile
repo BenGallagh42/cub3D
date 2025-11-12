@@ -6,7 +6,7 @@
 #    By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 18:12:13 by bboulmie          #+#    #+#              #
-#    Updated: 2025/11/07 18:34:35 by bboulmie         ###   ########.fr        #
+#    Updated: 2025/11/12 17:29:33 by bboulmie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,20 +34,24 @@ OBJ_DIR         = obj
 # ──────────────────────────────────────
 # Source files
 # ──────────────────────────────────────
-MAIN_SRC        = $(SRC_DIR)/test_main.c
+MAIN_SRC        =	$(SRC_DIR)/test_main.c
 
-RENDER_SRC      = $(RENDER_DIR)/init_mlx.c \
-                  $(RENDER_DIR)/draw.c \
-                  $(RENDER_DIR)/loop.c \
-                  $(RENDER_DIR)/test_map.c
+RENDER_SRC      =	$(RENDER_DIR)/init_mlx.c \
+                	$(RENDER_DIR)/draw.c \
+                	$(RENDER_DIR)/loop.c \
+					$(RENDER_DIR)/raycaster.c \
+					$(RENDER_DIR)/raycaster2.c \
+                	$(RENDER_DIR)/test_map.c
 
-HOOKS_SRC       = $(HOOKS_DIR)/key_hook.c
+HOOKS_SRC       =	$(HOOKS_DIR)/key_hook.c \
+					$(HOOKS_DIR)/movement.c \
+					$(HOOKS_DIR)/rotate.c
 
-UTILS_SRC       = $(UTILS_DIR)/error.c \
-                  $(UTILS_DIR)/free.c \
-                  $(UTILS_DIR)/rgb.c
+UTILS_SRC       =	$(UTILS_DIR)/error.c \
+                	$(UTILS_DIR)/free.c \
+                	$(UTILS_DIR)/rgb.c
 
-SRC             = $(MAIN_SRC) $(RENDER_SRC) $(HOOKS_SRC) $(UTILS_SRC)
+SRC             =	$(MAIN_SRC) $(RENDER_SRC) $(HOOKS_SRC) $(UTILS_SRC)
 
 # ──────────────────────────────────────
 # Objects / Dependencies
