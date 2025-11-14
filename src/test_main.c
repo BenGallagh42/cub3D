@@ -6,7 +6,7 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 18:14:02 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/12 17:39:57 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:58:29 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ void	cleanup(t_app *app)
 {
 	if (app->tex)
 	{
+		if (app->tex->north)
+			mlx_delete_image(app->mlx, app->tex->north);
+		if (app->tex->south)
+			mlx_delete_image(app->mlx, app->tex->south);
+		if (app->tex->west)
+			mlx_delete_image(app->mlx, app->tex->west);
+		if (app->tex->east)
+			mlx_delete_image(app->mlx, app->tex->east);
 		free(app->tex);
 	}
 	if (app->map)
@@ -56,8 +64,8 @@ static void	init_test_data(t_app *app)
 	app->tex->south = NULL;
 	app->tex->west = NULL;
 	app->tex->east = NULL;
-	app->tex->floor = 0xFF0000FF;   // Red
-	app->tex->ceiling = 0xFFFF0000; // Blue
+	app->tex->floor = 0xFF06280F;
+	app->tex->ceiling = 0xFF23134A;
 
 	// --- Player ---
 	app->player = malloc(sizeof(t_player));
@@ -68,7 +76,7 @@ static void	init_test_data(t_app *app)
 	app->player->dir_x = -1.0;
 	app->player->dir_y = 0.0;
 	app->player->plane_x = 0.0;
-	app->player->plane_y = 0.66;    // FOV/2 tan
+	app->player->plane_y = tan(FOV_R / 2.0);
 
 	// --- Ray ---
 	app->ray = malloc(sizeof(t_ray));
@@ -77,6 +85,12 @@ static void	init_test_data(t_app *app)
 
 	// --- Map ---
 	init_test_map(app);
+	if (!app->map)
+		return ;
+	app->map->no_path = "assets/textures/simonkraft/respawn_anchor_side0.png";
+	app->map->so_path = "assets/textures/simonkraft/respawn_anchor_side4.png";
+	app->map->we_path = "assets/textures/simonkraft/respawn_anchor_side3.png";
+	app->map->ea_path = "assets/textures/simonkraft/respawn_anchor_side2.png";
 }
 
 // Main entry point — TEST MODE (no parser)
@@ -94,6 +108,9 @@ int32_t	main(void)
 	// 2. Initialize MLX42
 	if (init_mlx(&app) == FAILURE)
 		return (cleanup(&app), FAILURE);
+
+	if (load_textures(&app) == FAILURE)
+    	return (cleanup(&app), FAILURE);
 
 	// 3. Set up hooks
 	mlx_key_hook(app.mlx, key_hook, &app);

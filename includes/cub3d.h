@@ -79,6 +79,10 @@ typedef struct s_map
 	int		player_x;
 	int		player_y;
 	char	player_dir;
+	char	*no_path;
+	char	*so_path;
+	char	*we_path;
+	char	*ea_path;
 }			t_map;
 
 typedef struct s_textures
@@ -154,7 +158,7 @@ void	cast_all_rays(t_app *app);
 void	perform_dda(t_app *app);
 void	calculate_wall_distance(t_app *app);
 void	draw_wall_stripe(t_app *app, int x);
-
+mlx_image_t	*get_wall_texture(t_app *app);
 
 // HOOKS FUNCTIONS
 void	key_hook(mlx_key_data_t keydata, void *param);
@@ -165,7 +169,6 @@ void	rotate_right(t_app *app);
 // Utils
 int		error_msg(const char *msg);
 void	free_split(char **split);
-int		rgb_to_int(int r, int g, int b);
 
 // Testing
 void	init_test_map(t_app *app);
