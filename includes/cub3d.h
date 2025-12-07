@@ -26,6 +26,7 @@
 #define TRUE 1
 #define SUCCESS 0
 #define FAILURE 1
+#define SKIP -1
 
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
@@ -39,8 +40,9 @@
 // ERROR MESSAGES ///
 #define ERR_ARGS "Error\nUsage: ./cub3D <map.cub>\n"
 #define ERR_NOT_CUB "Error\nFile must have .cub extension\n"
+#define ERR_EMPTY "Error\nEmpty File !!\n"
+#define ERR_INCOMPLETE "Error\nIncomplete Input Textures\n"
 #define ERR_FILE_OPEN "Error\nCannot open file\n"
-#define ERR_FILE_READ "Error\nFailed to read file\n"
 #define ERR_ALLOC "Error\nMemory allocation failed\n"
 #define ERR_MLX_INIT "Error\nMLX initialization failed\n"
 #define ERR_WIN_CREATE "Error\nFailed to create window\n"
@@ -56,8 +58,8 @@
 // Color errors
 #define ERR_COLOR_MISS "Error\nMissing floor or ceiling color\n"
 #define ERR_COLOR_DUP "Error\nDuplicate floor/ceiling color\n"
-#define ERR_COLOR_FORMAT "Error\nColor must be: R,G,B (0-255)\n"
-#define ERR_COLOR_RANGE "Error\nRGB values must be in [0,255]\n"
+#define ERR_COLOR_FORMAT "Error\nColor format must be: R,G,B\n"
+#define ERR_COLOR_RANGE "Error\nRGB values must range from 0 to 255\n"
 #define ERR_COLOR_COUNT "Error\nExactly 3 values required for color\n"
 
 // Map errors
@@ -93,6 +95,8 @@ typedef struct s_textures
 	mlx_image_t *east;
 	unsigned int floor;
 	unsigned int ceiling;
+	int floor_set;
+	int ceiling_set;
 } t_textures;
 
 typedef struct s_player
@@ -142,13 +146,25 @@ typedef struct s_app
 
 // FUNCTIONS ///
 
-int parse_file(t_app *app, char *path);
+// int parse_file(t_app *app, char *path);
 int load_textures(t_app *app);
 int init_mlx(t_app *app);
 void cleanup(t_app *app);
 
 // PARSER FUNCTIONS ///
-int parse_file(t_app *app, char *av);
+int parser(t_app *app, char *argv);
+int parse_texture(t_app *app, char *line);
+int parse_colors(t_app *app, char *line);
+int parse_map(t_app *app, char *line);
+int validate_map(t_app *app);
+
+int chk_empty_line(char *line);
+int chk_extention(char *filename, char *ext);
+void skip_spaces(char *line, int *i);
+void ft_trim_trailing(char *str);
+
+void cal_map_width(t_app *app);
+int chk_map_chars(char *line);
 
 // RENDER FUNCTIONS
 // Init mlx + frame loop

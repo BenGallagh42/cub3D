@@ -12,53 +12,49 @@
 
 #include "cub3d.h"
 
-/*
-    parse_file(filename, data)
-        ↓
-    1. Check .cub extension
-        ↓
-    2. Open file
-        ↓
-    3. Initialize data structure
-        ↓
-    4. Read line by line with get_next_line()
-        ↓
-    5. For each line:
-        - Empty line? → Skip
-        - Texture line (NO/SO/WE/EA)? → parse_texture()
-        - Color line (F/C)? → parse_color()
-        - Map line (0/1/N/S/E/W)? → parse_map()
-        ↓
-    6. Validate complete map
-        ↓
-    7. Return success/failure
-*/
-
-int chk_extention(char argv[])
+static int parse_line_by_line(t_app *app, char *line)
 {
-    int fd;
-    char *ext;
+    int ret;
 
-    fd = open(argv, O_RDONLY);
-    if (fd == -1)
-        return (error_msg(ERR_FILE_OPEN), FAILURE);
-    ext = ft_strrchr(argv, '.');
-    if (ext[0] == '.' && ext[1] == 'c' && ext[2] == 'u' && ext[3] == 'b')
+    if (chk_empty_line(line))
         return (SUCCESS);
-    return (error_msg(ERR_NOT_CUB), FAILURE);
+    ret = parse_texture(app, line);
+    if (ret != SKIP)
+        return (ret);
+    ret = parse_colors(app, line);
+    if (ret != SKIP)
+        return (ret);
+    ret = parse_map(app, line);
+    if (ret != SKIP)
+        return (ret);
+    return (error_msg("out of scope\n"), FAILURE);
 }
 
-int parse_file(t_app *app, char *argv)
+int parser(t_app *app, char *argv)
 {
-    (void)app;
     int fd;
+    char *line;
+    int result;
 
-    if (chk_extention(argv) == FAILURE)
-        return (FAILURE);
+    if (!chk_extention(argv, ".cub"))
+        return (error_msg(ERR_NOT_CUB), FAILURE);
     fd = open(argv, O_RDONLY);
     if (fd < 0)
         return (error_msg(ERR_FILE_OPEN), FAILURE);
-
-    printf("completed\n");
-    return (0);
+    line = get_next_line(fd);
+    if (!line)
+        return (close(fd), error_msg(ERR_MAP_EMPTY), FAILURE);
+    while (line)
+    {
+        result = parse_line_by_line(app, line);
+        free(line);
+        if (result == FAILURE)
+        {
+            close(fd);
+            return (FAILURE);
+        }
+        line = get_next_line(fd);
+    }
+    close(fd);
+    return (validate_map(app));
 }

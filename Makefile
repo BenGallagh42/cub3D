@@ -39,7 +39,13 @@ OBJ_DIR         = obj
 # ──────────────────────────────────────
 MAIN_SRC        =	$(SRC_DIR)/main.c
 
-PARSER_SRC		=	$(PARSER_DIR)/parse_file.c
+PARSER_SRC		=	$(PARSER_DIR)/parser.c \
+					$(RENDER_DIR)/parse_textures.c \
+					$(RENDER_DIR)/parse_colors.c \
+					$(RENDER_DIR)/parse_map.c \
+					$(RENDER_DIR)/parse_map_utils.c \
+					$(RENDER_DIR)/validate_map.c \
+					$(RENDER_DIR)/parser_utils.c
 
 RENDER_SRC      =	$(RENDER_DIR)/init_mlx.c \
                 	$(RENDER_DIR)/draw.c \

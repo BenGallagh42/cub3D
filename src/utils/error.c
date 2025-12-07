@@ -12,29 +12,44 @@
 
 #include "cub3d.h"
 
-// Prints error message to stderr and returns FAILURE
 int error_msg(const char *msg)
 {
 	write(2, msg, ft_strlen(msg));
 	return (FAILURE);
 }
 
+static void free_texture_paths(t_map *map)
+{
+	if (map->no_path)
+		free(map->no_path);
+	if (map->so_path)
+		free(map->so_path);
+	if (map->we_path)
+		free(map->we_path);
+	if (map->ea_path)
+		free(map->ea_path);
+}
+
+static void free_mlx_textures(t_app *app)
+{
+	if (app->tex->north)
+		mlx_delete_image(app->mlx, app->tex->north);
+	if (app->tex->south)
+		mlx_delete_image(app->mlx, app->tex->south);
+	if (app->tex->west)
+		mlx_delete_image(app->mlx, app->tex->west);
+	if (app->tex->east)
+		mlx_delete_image(app->mlx, app->tex->east);
+	free(app->tex);
+}
+
 void cleanup(t_app *app)
 {
 	if (app->tex)
-	{
-		if (app->tex->north)
-			mlx_delete_image(app->mlx, app->tex->north);
-		if (app->tex->south)
-			mlx_delete_image(app->mlx, app->tex->south);
-		if (app->tex->west)
-			mlx_delete_image(app->mlx, app->tex->west);
-		if (app->tex->east)
-			mlx_delete_image(app->mlx, app->tex->east);
-		free(app->tex);
-	}
+		free_mlx_textures(app);
 	if (app->map)
 	{
+		free_texture_paths(app->map);
 		free_split(app->map->grid);
 		free(app->map);
 	}
