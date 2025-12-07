@@ -6,82 +6,78 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:31:47 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 18:22:31 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/12/08 00:27:45 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// Initialize all pointers
+static t_map	*init_map(void)
+{
+	t_map	*map;
+
+	map = (t_map *)ft_calloc(1, sizeof(t_map));
+	if (!map)
+		return (NULL);
+	map->grid = NULL;
+	map->no_path = NULL;
+	map->so_path = NULL;
+	map->we_path = NULL;
+	map->ea_path = NULL;
+	map->width = 0;
+	map->height = 0;
+	map->player_x = -1;
+	map->player_y = -1;
+	map->player_dir = -1;
+	return (map);
+}
+
+t_textures	*init_tex(void)
+{
+	t_textures	*tex;
+
+	tex = (t_textures *)ft_calloc(1, sizeof(t_textures));
+	if (!tex)
+		return (NULL);
+	tex->north = NULL;
+	tex->south = NULL;
+	tex->west = NULL;
+	tex->east = NULL;
+	tex->floor = 0;
+	tex->ceiling = 0;
+	tex->floor_set = FALSE;
+	tex->ceiling_set = FALSE;
+	return (tex);
+}
+
 static void	init_app(t_app *app)
 {
 	app->mlx = NULL;
 	app->screen = NULL;
-	app->map = NULL;
+	app->map = init_map();
 	app->player = NULL;
-	app->tex = NULL;
-	app->ray = NULL;
+	app->tex = init_tex();
+	app->ray = malloc(sizeof(t_ray));
 }
 
-// Clean up everything
-void	cleanup(t_app *app)
-{
-	// Free textures
-	if (app->tex)
-	{
-		if (app->tex->north)
-			mlx_delete_image(app->mlx, app->tex->north);
-		if (app->tex->south)
-			mlx_delete_image(app->mlx, app->tex->south);
-		if (app->tex->west)
-			mlx_delete_image(app->mlx, app->tex->west);
-		if (app->tex->east)
-			mlx_delete_image(app->mlx, app->tex->east);
-		free(app->tex);
-	}
-	// Free map data
-	if (app->map)
-	{
-		free_split(app->map->grid);
-		free(app->map);
-	}
-	// Free player and raycasting data
-	if (app->player)
-		free(app->player);
-	if (app->ray)
-		free(app->ray);
-	if (app->screen)
-		mlx_delete_image(app->mlx, app->screen);
-	// Terminate MLX42
-	if (app->mlx)
-		mlx_terminate(app->mlx);
-}
-
-// Program main function
-int32_t	main(int ac, char **av) // int32_t because mostly used in MLX42 and safer than just int
+int32_t	main(int ac, char **av)
 {
 	t_app	app;
 
-	// 1. Initialize everything with NULL for safety
 	init_app(&app);
-	// 2. Validate input
 	if (ac != 2)
 		return (error_msg(ERR_ARGS), FAILURE);
-	// 3. Parse the .cub file
-	if (parse_file(&app, av[1]) == FAILURE)
-		return (cleanup(&app), FAILURE);
-	// 4. Initialize MLX42 (create wondow, etc...)
 	if (init_mlx(&app) == FAILURE)
 		return (cleanup(&app), FAILURE);
-	// 5. Load textures
+	if (parser(&app, av[1]) == FAILURE)
+		return (cleanup(&app), FAILURE);
+	if (init_player(&app) == FAILURE)
+		return (cleanup(&app), FAILURE);
 	if (load_textures(&app) == FAILURE)
 		return (cleanup(&app), FAILURE);
-	// 6. Set up input hooks
 	mlx_key_hook(app.mlx, key_hook, &app);
 	mlx_loop_hook(app.mlx, loop_hook, &app);
-	// 7. Start the main game loop
 	mlx_loop(app.mlx);
-	// 8. Clean exit (ESC or window close)
 	cleanup(&app);
 	return (SUCCESS);
 }

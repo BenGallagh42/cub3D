@@ -17,8 +17,9 @@ NAME            = cub3D
 # ──────────────────────────────────────
 CC              = cc
 CFLAGS          = -Wall -Wextra -Werror -g -O0
-INC             = -Iincludes -Ilibft/inc -IMLX42/include
+INC             = -Iincludes -Ilibft/inc -Ilibgnl/inc -IMLX42/include
 LIBFT           = libft/libft.a
+LIBGNL			= libgnl/libgnl.a
 MLX42           = MLX42/build/libmlx42.a
 DEPFLAGS        = -MMD -MP
 
@@ -27,15 +28,26 @@ DEPFLAGS        = -MMD -MP
 # ──────────────────────────────────────
 SRC_DIR         = src
 RENDER_DIR      = $(SRC_DIR)/render
+PARSER_DIR      = $(SRC_DIR)/parser
 HOOKS_DIR       = $(SRC_DIR)/hooks
 UTILS_DIR       = $(SRC_DIR)/utils
 OBJ_DIR         = obj
 
+
 # ──────────────────────────────────────
 # Source files
 # ──────────────────────────────────────
-MAIN_SRC        =	$(SRC_DIR)/test_main.c
+MAIN_SRC        =	$(SRC_DIR)/main.c
 
+PARSER_SRC		=	$(PARSER_DIR)/parser.c \
+					$(RENDER_DIR)/parse_textures.c \
+					$(RENDER_DIR)/parse_colors.c \
+					$(RENDER_DIR)/parse_map.c \
+					$(RENDER_DIR)/parse_map_utils.c \
+					$(RENDER_DIR)/validate_map.c \
+					$(RENDER_DIR)/parser_utils.c \
+					$(RENDER_DIR)/init_player.c
+					
 RENDER_SRC      =	$(RENDER_DIR)/init_mlx.c \
                 	$(RENDER_DIR)/draw.c \
                 	$(RENDER_DIR)/loop.c \
@@ -51,7 +63,7 @@ HOOKS_SRC       =	$(HOOKS_DIR)/key_hook.c \
 UTILS_SRC       =	$(UTILS_DIR)/error.c \
                 	$(UTILS_DIR)/free.c
 
-SRC             =	$(MAIN_SRC) $(RENDER_SRC) $(HOOKS_SRC) $(UTILS_SRC)
+SRC             =	$(MAIN_SRC) $(PARSER_SRC) $(RENDER_SRC) $(HOOKS_SRC) $(UTILS_SRC)
 
 # ──────────────────────────────────────
 # Objects / Dependencies
@@ -62,7 +74,7 @@ DEPS            = $(OBJ:.o=.d)
 # ──────────────────────────────────────
 # VPATH
 # ──────────────────────────────────────
-VPATH           = $(SRC_DIR):$(RENDER_DIR):$(HOOKS_DIR):$(UTILS_DIR)
+VPATH           = $(SRC_DIR):$(PARSER_DIR):$(RENDER_DIR):$(HOOKS_DIR):$(UTILS_DIR)
 
 # ──────────────────────────────────────
 # Colors
@@ -77,7 +89,7 @@ RESET           = \033[0m
 # ──────────────────────────────────────
 all: $(NAME)
 
-$(NAME): $(MLX42) $(LIBFT) $(OBJ)
+$(NAME): $(MLX42) $(LIBFT) $(LIBGNL) $(OBJ)
 	@echo "$(BLUE)Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(INC) -o $@ $(OBJ) $(LIBFT) $(MLX42) \
 		-lglfw -ldl -pthread -lm
@@ -93,6 +105,10 @@ $(OBJ_DIR):
 $(LIBFT):
 	@echo "$(BLUE)Building libft...$(RESET)"
 	@$(MAKE) --no-print-directory -C libft > /dev/null
+
+$(LIBGNL):
+	@echo "$(BLUE)Building libgnl...$(RESET)"
+	@$(MAKE) --no-print-directory -C libgnl > /dev/null
 
 $(MLX42):
 	@echo "$(BLUE)Building MLX42...$(RESET)"
