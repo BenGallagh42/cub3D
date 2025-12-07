@@ -6,15 +6,15 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:31:47 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 18:22:31 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/12/08 00:27:45 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static t_map *init_map(void)
+static t_map	*init_map(void)
 {
-	t_map *map;
+	t_map	*map;
 
 	map = (t_map *)ft_calloc(1, sizeof(t_map));
 	if (!map)
@@ -32,9 +32,9 @@ static t_map *init_map(void)
 	return (map);
 }
 
-t_textures *init_tex(void)
+t_textures	*init_tex(void)
 {
-	t_textures *tex;
+	t_textures	*tex;
 
 	tex = (t_textures *)ft_calloc(1, sizeof(t_textures));
 	if (!tex)
@@ -50,32 +50,19 @@ t_textures *init_tex(void)
 	return (tex);
 }
 
-/*
-	Delete when app complete
-*/
-// static void dummy_init(t_app *app)
-// {
-// 	app->player->pos_x = 3;
-// 	app->player->pos_y = 1;
-// 	app->player->dir_x = -1.0;
-// 	app->player->dir_y = 0.0;
-// 	app->player->plane_x = 0.0;
-// 	app->player->plane_y = tan(FOV_R / 2.0);
-// }
-
-static void init_app(t_app *app)
+static void	init_app(t_app *app)
 {
 	app->mlx = NULL;
 	app->screen = NULL;
 	app->map = init_map();
-	app->player = malloc(sizeof(t_player));
+	app->player = NULL;
 	app->tex = init_tex();
 	app->ray = malloc(sizeof(t_ray));
 }
 
-int32_t main(int ac, char **av)
+int32_t	main(int ac, char **av)
 {
-	t_app app;
+	t_app	app;
 
 	init_app(&app);
 	if (ac != 2)
@@ -91,15 +78,6 @@ int32_t main(int ac, char **av)
 	mlx_key_hook(app.mlx, key_hook, &app);
 	mlx_loop_hook(app.mlx, loop_hook, &app);
 	mlx_loop(app.mlx);
-
-	// printf("NO: %s\n", app.map->no_path);
-	// printf("SO: %s\n", app.map->so_path);
-	// printf("WE: %s\n", app.map->we_path);
-	// printf("EA: %s\n", app.map->ea_path);
-	// printf("F: %u\n", app.tex->floor);
-	// printf("C: %u\n", app.tex->ceiling);
-	// for (int i = 0; i < 5; i++)
-	// 	printf("MAP[%d]: %s\n", i, app.map->grid[i]);
 	cleanup(&app);
 	return (SUCCESS);
 }

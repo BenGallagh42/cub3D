@@ -6,19 +6,19 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:24:25 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/07 18:58:56 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/12/08 00:28:39 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int error_msg(const char *msg)
+int	error_msg(const char *msg)
 {
 	write(2, msg, ft_strlen(msg));
 	return (FAILURE);
 }
 
-static void free_texture_paths(t_map *map)
+static void	free_texture_paths(t_map *map)
 {
 	if (map->no_path)
 		free(map->no_path);
@@ -30,7 +30,7 @@ static void free_texture_paths(t_map *map)
 		free(map->ea_path);
 }
 
-static void free_mlx_textures(t_app *app)
+static void	free_mlx_textures(t_app *app)
 {
 	if (app->tex->north)
 		mlx_delete_image(app->mlx, app->tex->north);
@@ -43,7 +43,7 @@ static void free_mlx_textures(t_app *app)
 	free(app->tex);
 }
 
-void cleanup(t_app *app)
+void	cleanup(t_app *app)
 {
 	if (app->tex)
 		free_mlx_textures(app);
@@ -63,7 +63,7 @@ void cleanup(t_app *app)
 		mlx_terminate(app->mlx);
 }
 
-void fatal_error(const char *msg, t_app *app)
+void	fatal_error(const char *msg, t_app *app)
 {
 	error_msg(msg);
 	cleanup(app);
