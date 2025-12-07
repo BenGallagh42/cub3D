@@ -24,8 +24,8 @@ static t_map *init_map(void)
 	map->so_path = NULL;
 	map->we_path = NULL;
 	map->ea_path = NULL;
-	map->width = -1;
-	map->height = -1;
+	map->width = 0;
+	map->height = 0;
 	map->player_x = -1;
 	map->player_y = -1;
 	map->player_dir = -1;
@@ -50,14 +50,27 @@ t_textures *init_tex(void)
 	return (tex);
 }
 
+/*
+	Delete when app complete
+*/
+// static void dummy_init(t_app *app)
+// {
+// 	app->player->pos_x = 3;
+// 	app->player->pos_y = 1;
+// 	app->player->dir_x = -1.0;
+// 	app->player->dir_y = 0.0;
+// 	app->player->plane_x = 0.0;
+// 	app->player->plane_y = tan(FOV_R / 2.0);
+// }
+
 static void init_app(t_app *app)
 {
 	app->mlx = NULL;
 	app->screen = NULL;
 	app->map = init_map();
-	app->player = NULL;
+	app->player = malloc(sizeof(t_player));
 	app->tex = init_tex();
-	app->ray = NULL;
+	app->ray = malloc(sizeof(t_ray));
 }
 
 int32_t main(int ac, char **av)
@@ -71,11 +84,13 @@ int32_t main(int ac, char **av)
 		return (cleanup(&app), FAILURE);
 	if (parser(&app, av[1]) == FAILURE)
 		return (cleanup(&app), FAILURE);
-	// if (load_textures(&app) == FAILURE)
-	// 	return (cleanup(&app), FAILURE);
-	// mlx_key_hook(app.mlx, key_hook, &app);
-	// mlx_loop_hook(app.mlx, loop_hook, &app);
-	// mlx_loop(app.mlx);
+	if (init_player(&app) == FAILURE)
+		return (cleanup(&app), FAILURE);
+	if (load_textures(&app) == FAILURE)
+		return (cleanup(&app), FAILURE);
+	mlx_key_hook(app.mlx, key_hook, &app);
+	mlx_loop_hook(app.mlx, loop_hook, &app);
+	mlx_loop(app.mlx);
 
 	// printf("NO: %s\n", app.map->no_path);
 	// printf("SO: %s\n", app.map->so_path);
@@ -83,8 +98,8 @@ int32_t main(int ac, char **av)
 	// printf("EA: %s\n", app.map->ea_path);
 	// printf("F: %u\n", app.tex->floor);
 	// printf("C: %u\n", app.tex->ceiling);
-	for (int i = 0; i < 5; i++)
-		printf("MAP[%d]: %s\n", i, app.map->grid[i]);
+	// for (int i = 0; i < 5; i++)
+	// 	printf("MAP[%d]: %s\n", i, app.map->grid[i]);
 	cleanup(&app);
 	return (SUCCESS);
 }

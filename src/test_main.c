@@ -13,7 +13,7 @@
 #include "cub3d.h"
 
 // Initialize all app pointers to NULL
-static void	init_app(t_app *app)
+static void init_app(t_app *app)
 {
 	app->mlx = NULL;
 	app->screen = NULL;
@@ -24,7 +24,7 @@ static void	init_app(t_app *app)
 }
 
 // Free everything safely
-void	cleanup(t_app *app)
+void cleanup(t_app *app)
 {
 	if (app->tex)
 	{
@@ -54,12 +54,12 @@ void	cleanup(t_app *app)
 }
 
 // Hard-coded test data
-static void	init_test_data(t_app *app)
+static void init_test_data(t_app *app)
 {
 	// --- Textures (dummy) ---
 	app->tex = malloc(sizeof(t_textures));
 	if (!app->tex)
-		return ;
+		return;
 	app->tex->north = NULL;
 	app->tex->south = NULL;
 	app->tex->west = NULL;
@@ -70,7 +70,7 @@ static void	init_test_data(t_app *app)
 	// --- Player ---
 	app->player = malloc(sizeof(t_player));
 	if (!app->player)
-		return ;
+		return;
 	app->player->pos_x = 5.5;
 	app->player->pos_y = 5.5;
 	app->player->dir_x = -1.0;
@@ -81,12 +81,12 @@ static void	init_test_data(t_app *app)
 	// --- Ray ---
 	app->ray = malloc(sizeof(t_ray));
 	if (!app->ray)
-		return ;
+		return;
 
 	// --- Map ---
 	init_test_map(app);
 	if (!app->map)
-		return ;
+		return;
 	app->map->no_path = "assets/textures/simonkraft/respawn_anchor_side0.png";
 	app->map->so_path = "assets/textures/simonkraft/respawn_anchor_side4.png";
 	app->map->we_path = "assets/textures/simonkraft/respawn_anchor_side3.png";
@@ -94,9 +94,9 @@ static void	init_test_data(t_app *app)
 }
 
 // Main entry point — TEST MODE (no parser)
-int32_t	main(void)
+int32_t main(void)
 {
-	t_app	app;
+	t_app app;
 
 	init_app(&app);
 
@@ -110,7 +110,7 @@ int32_t	main(void)
 		return (cleanup(&app), FAILURE);
 
 	if (load_textures(&app) == FAILURE)
-    	return (cleanup(&app), FAILURE);
+		return (cleanup(&app), FAILURE);
 
 	// 3. Set up hooks
 	mlx_key_hook(app.mlx, key_hook, &app);

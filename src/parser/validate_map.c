@@ -39,7 +39,7 @@ static int scan_map(t_app *app, int player_count)
     return (player_count);
 }
 
-static char **copy_map_for_flood(t_app *app)
+static char **copy_and_padding_map(t_app *app)
 {
     char **copy;
     int y;
@@ -102,11 +102,10 @@ int validate_map(t_app *app)
     player_count = scan_map(app, 0);
     if (player_count != 1)
         return (error_msg(ERR_MAP_PLAYER), FAILURE);
-    tempo_map = copy_map_for_flood(app);
+    tempo_map = copy_and_padding_map(app);
     if (!tempo_map)
         return (error_msg(ERR_ALLOC), FAILURE);
     chk_enclosed_wall = flood_fill(tempo_map, app->map->player_x, app->map->player_y, app);
-    printf("%d\n", chk_enclosed_wall);
     free_split(tempo_map);
     if (chk_enclosed_wall == FAILURE)
         return (error_msg(ERR_MAP_WALL), FAILURE);

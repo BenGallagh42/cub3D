@@ -166,6 +166,8 @@ void ft_trim_trailing(char *str);
 void cal_map_width(t_app *app);
 int chk_map_chars(char *line);
 
+int init_player(t_app *app);
+
 // RENDER FUNCTIONS
 // Init mlx + frame loop
 int init_mlx(t_app *app);
