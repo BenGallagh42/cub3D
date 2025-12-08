@@ -33,7 +33,8 @@
 # define FOV_D 60
 # define FOV_R 1.0471975511963976 // = FOV * PI / 180
 # define MOVE_SPEED 0.15
-# define TURN_SPEED 0.05
+# define TURN_SPEED 0.08
+# define MOUSE_SENS 0.002
 # define TILE_SIZE 1.0
 # define PI 3.14159265358979323846
 
@@ -184,12 +185,10 @@ void		key_hook(mlx_key_data_t keydata, void *param);
 void		update_movement(t_app *app);
 void		rotate_left(t_app *app);
 void		rotate_right(t_app *app);
+void		handle_mouse_rotation(t_app *app);
 
 // Utils
 int			error_msg(const char *msg);
 void		free_split(char **split);
-
-// Testing
-void		init_test_map(t_app *app);
 
 #endif

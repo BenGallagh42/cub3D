@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+// Scans map to count players and store position
 static int	scan_map(t_app *app, int player_count)
 {
 	int		x;
@@ -39,6 +40,7 @@ static int	scan_map(t_app *app, int player_count)
 	return (player_count);
 }
 
+// Creates padded copy of map for flood fill
 static char	**copy_and_padding_map(t_app *app)
 {
 	char	**copy;
@@ -66,6 +68,7 @@ static char	**copy_and_padding_map(t_app *app)
 	return (copy);
 }
 
+// Recursive flood fill to check map is closed
 static int	flood_fill(char **map, int x, int y, t_app *app)
 {
 	if (x < 0 || y < 0 || y >= app->map->height || x >= app->map->width)
@@ -86,6 +89,7 @@ static int	flood_fill(char **map, int x, int y, t_app *app)
 	return (SUCCESS);
 }
 
+// Validates entire map: textures, colors, player, closed walls
 int	validate_map(t_app *app)
 {
 	char	**tempo_map;

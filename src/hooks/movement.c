@@ -31,7 +31,7 @@ static void	move_forward_backward(t_app *app)
 {
 	double	move_speed;
 
-	move_speed = 0.1;
+	move_speed = MOVE_SPEED;
 	if (mlx_is_key_down(app->mlx, MLX_KEY_W))
 	{
 		if (!is_wall(app, app->player->pos_x + app->player->dir_x * move_speed,
@@ -58,4 +58,5 @@ void	update_movement(t_app *app)
 	move_forward_backward(app);
 	rotate_left(app);
 	rotate_right(app);
+	handle_mouse_rotation(app);
 }

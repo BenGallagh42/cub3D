@@ -19,7 +19,6 @@ CC              = cc
 CFLAGS          = -Wall -Wextra -Werror -g -O0
 INC             = -Iincludes -Ilibft/inc -Ilibgnl/inc -IMLX42/include
 LIBFT           = libft/libft.a
-LIBGNL			= libgnl/libgnl.a
 MLX42           = MLX42/build/libmlx42.a
 DEPFLAGS        = -MMD -MP
 
@@ -53,8 +52,7 @@ RENDER_SRC      =	$(RENDER_DIR)/init_mlx.c \
                 	$(RENDER_DIR)/loop.c \
 					$(RENDER_DIR)/raycaster.c \
 					$(RENDER_DIR)/raycaster2.c \
-					$(RENDER_DIR)/load_textures.c \
-                	$(RENDER_DIR)/test_map.c
+					$(RENDER_DIR)/load_textures.c 
 
 HOOKS_SRC       =	$(HOOKS_DIR)/key_hook.c \
 					$(HOOKS_DIR)/movement.c \
@@ -89,7 +87,7 @@ RESET           = \033[0m
 # ──────────────────────────────────────
 all: $(NAME)
 
-$(NAME): $(MLX42) $(LIBFT) $(LIBGNL) $(OBJ)
+$(NAME): $(MLX42) $(LIBFT) $(OBJ)
 	@echo "$(BLUE)Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(INC) -o $@ $(OBJ) $(LIBFT) $(MLX42) \
 		-lglfw -ldl -pthread -lm
@@ -106,13 +104,11 @@ $(LIBFT):
 	@echo "$(BLUE)Building libft...$(RESET)"
 	@$(MAKE) --no-print-directory -C libft > /dev/null
 
-$(LIBGNL):
-	@echo "$(BLUE)Building libgnl...$(RESET)"
-	@$(MAKE) --no-print-directory -C libgnl > /dev/null
-
 $(MLX42):
+	@echo "$(BLUE)Downloading MLX42...$(RESET)"
+	@if [ ! -d "MLX42" ]; then git clone https://github.com/codam-coding-college/MLX42.git; fi
 	@echo "$(BLUE)Building MLX42...$(RESET)"
-	@cmake -B MLX42/build MLX42 > /dev/null
+	@cmake -S MLX42 -B MLX42/build > /dev/null
 	@cmake --build MLX42/build -j4 > /dev/null
 
 clean:

@@ -32,7 +32,7 @@ static t_map	*init_map(void)
 	return (map);
 }
 
-t_textures	*init_tex(void)
+static t_textures	*init_tex(void)
 {
 	t_textures	*tex;
 
@@ -50,23 +50,31 @@ t_textures	*init_tex(void)
 	return (tex);
 }
 
-static void	init_app(t_app *app)
+static int	init_app(t_app *app)
 {
 	app->mlx = NULL;
 	app->screen = NULL;
 	app->map = init_map();
+	if (!app->map)
+		return (error_msg(ERR_ALLOC), FAILURE);
 	app->player = NULL;
 	app->tex = init_tex();
+	if (!app->tex)
+		return (error_msg(ERR_ALLOC), FAILURE);
 	app->ray = malloc(sizeof(t_ray));
+	if (!app->ray)
+		return (error_msg(ERR_ALLOC), FAILURE);
+	return (SUCCESS);
 }
 
 int32_t	main(int ac, char **av)
 {
 	t_app	app;
 
-	init_app(&app);
 	if (ac != 2)
 		return (error_msg(ERR_ARGS), FAILURE);
+	if (init_app(&app) == FAILURE)
+		return (cleanup(&app), FAILURE);
 	if (init_mlx(&app) == FAILURE)
 		return (cleanup(&app), FAILURE);
 	if (parser(&app, av[1]) == FAILURE)
@@ -75,6 +83,7 @@ int32_t	main(int ac, char **av)
 		return (cleanup(&app), FAILURE);
 	if (load_textures(&app) == FAILURE)
 		return (cleanup(&app), FAILURE);
+	mlx_set_cursor_mode(app.mlx, MLX_MOUSE_HIDDEN);
 	mlx_key_hook(app.mlx, key_hook, &app);
 	mlx_loop_hook(app.mlx, loop_hook, &app);
 	mlx_loop(app.mlx);

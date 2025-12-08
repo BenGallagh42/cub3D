@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+// Checks if line contains only valid map characters (0,1,N,S,E,W,space)
 int	chk_map_chars(char *line)
 {
 	int	i;
@@ -28,6 +29,7 @@ line[i] != ' ' && line[i] != '\t')
 	return (TRUE);
 }
 
+// Calculates maximum width of map (for padding)
 void	cal_map_width(t_app *app)
 {
 	int	row;

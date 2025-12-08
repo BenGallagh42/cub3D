@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+// Checks if line starts with F or C followed by space
 static int	chk_color_identifier(char *line, int *i)
 {
 	skip_spaces(line, i);
@@ -24,55 +25,31 @@ line[*i + 1] == '\n' || line[*i + 1] == '\0'))
 	return (0);
 }
 
-static int	chk_color_format(char *str)
+// FIXED: strict RGB parsing: rejects "255a", "300"
+static int	chk_color_range(const char *str)
 {
 	int	i;
-	int	comma_count;
-	int	digit_count;
+	int	val;
 
 	i = 0;
-	comma_count = 0;
-	digit_count = 0;
-	while (str[i] && str[i] != '\n')
-	{
-		if (ft_isdigit(str[i]))
-			digit_count++;
-		else if (str[i] == ',')
-		{
-			if (digit_count == 0)
-				return (FAILURE);
-			comma_count++;
-			digit_count = 0;
-		}
-		else
-			return (FAILURE);
+	val = 0;
+	while (str[i] && ft_isspace(str[i]))
 		i++;
-	}
-	if (comma_count != 2 || digit_count == 0)
-		return (FAILURE);
-	return (SUCCESS);
-}
-
-static int	chk_color_range(char *str)
-{
-	int	i;
-	int	value;
-
-	i = 0;
-	if (!str || !str[0])
+	if (!str[i] || !ft_isdigit(str[i]))
 		return (-1);
-	while (str[i] && str[i] != '\n')
+	while (str[i] && ft_isdigit(str[i]))
 	{
-		if (!ft_isdigit(str[i]))
+		val = val * 10 + (str[i] - '0');
+		if (val > 255)
 			return (-1);
 		i++;
 	}
-	value = ft_atoi(str);
-	if (value < 0 || value > 255)
+	if (str[i] && !ft_isspace(str[i]) && str[i] != '\n' && str[i] != '\0')
 		return (-1);
-	return (value);
+	return (val);
 }
 
+// Sets floor or ceiling color from "R,G,B" string
 static int	add_color(char *line, unsigned int *color, int *is_set)
 {
 	char	**rgb;
@@ -82,12 +59,10 @@ static int	add_color(char *line, unsigned int *color, int *is_set)
 
 	if (*is_set)
 		return (error_msg(ERR_COLOR_DUP), FAILURE);
-	if (chk_color_format(line) == FAILURE)
-		return (error_msg(ERR_COLOR_FORMAT), FAILURE);
 	rgb = ft_split(line, ',');
 	if (!rgb)
 		return (error_msg(ERR_ALLOC), FAILURE);
-	if (!rgb[0] || !rgb[1] || !rgb[2])
+	if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 		return (free_split(rgb), error_msg(ERR_COLOR_COUNT), FAILURE);
 	r = chk_color_range(rgb[0]);
 	g = chk_color_range(rgb[1]);
@@ -100,6 +75,7 @@ static int	add_color(char *line, unsigned int *color, int *is_set)
 	return (SUCCESS);
 }
 
+// Parses F and C color lines
 int	parse_colors(t_app *app, char *line)
 {
 	int	i;

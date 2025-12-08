@@ -19,5 +19,8 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 
 	app = param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
+		ft_printf("Escape key pressed, game closed.\n");
 		mlx_close_window(app->mlx);
+	}
 }

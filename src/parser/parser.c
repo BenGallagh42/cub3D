@@ -6,12 +6,13 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:15:52 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/07 23:35:06 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/07 23:20:06 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Parses one line: texture, color, or map — returns SUCCESS/FAILURE/SKIP
 static int	parse_line_by_line(t_app *app, char *line)
 {
 	int	ret;
@@ -27,9 +28,10 @@ static int	parse_line_by_line(t_app *app, char *line)
 	ret = parse_map(app, line);
 	if (ret != SKIP)
 		return (ret);
-	return (error_msg("out of scope\n"), FAILURE);
+	return (error_msg("Invalid line in .cub file\n"), FAILURE);
 }
 
+// Main parser: opens file, reads line by line, validates at end
 int	parser(t_app *app, char *argv)
 {
 	int		fd;

@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+// Copies string safely
 static char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
 	size_t	i;
@@ -30,6 +31,7 @@ static char	*ft_strncpy(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
+// Stores texture path if not already set and file exists
 static int	add_texture(char **texture_path, char *tmp_path)
 {
 	int	fd;
@@ -46,6 +48,7 @@ static int	add_texture(char **texture_path, char *tmp_path)
 	return (SUCCESS);
 }
 
+// Extracts path after identifier
 static char	*extract_path(char *line)
 {
 	int		i;
@@ -62,6 +65,7 @@ static char	*extract_path(char *line)
 	return (tmp);
 }
 
+// Detects NO/SO/WE/EA identifier
 static int	chk_texture(char *line, int *i)
 {
 	skip_spaces(line, i);
@@ -78,6 +82,7 @@ static int	chk_texture(char *line, int *i)
 	return (0);
 }
 
+// Parses texture lines: NO, SO, WE, EA
 int	parse_texture(t_app *app, char *line)
 {
 	int		i;
