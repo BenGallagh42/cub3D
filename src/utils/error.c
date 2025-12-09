@@ -62,10 +62,3 @@ void	cleanup(t_app *app)
 	if (app->mlx)
 		mlx_terminate(app->mlx);
 }
-
-void	fatal_error(const char *msg, t_app *app)
-{
-	error_msg(msg);
-	cleanup(app);
-	exit(FAILURE);
-}

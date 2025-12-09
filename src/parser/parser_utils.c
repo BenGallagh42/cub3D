@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+// Removes trailing spaces/tabs/newlines
 void	ft_trim_trailing(char *str)
 {
 	int	len;
@@ -28,12 +29,14 @@ str[len] == '\n' || str[len] == '\r'))
 	}
 }
 
+// Skips spaces and tabs
 void	skip_spaces(char *line, int *i)
 {
 	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
 		(*i)++;
 }
 
+// Checks if char is whitespace
 static int	chk_whitespaces(char ch)
 {
 	if ((ch == ' ') || (ch == '\n') || (ch == '\t') || (ch == '\r'))
@@ -41,6 +44,7 @@ static int	chk_whitespaces(char ch)
 	return (FALSE);
 }
 
+// Checks file extension
 int	chk_extention(char *filename, char *ext)
 {
 	char	*tmp;
@@ -53,6 +57,7 @@ int	chk_extention(char *filename, char *ext)
 	return (FALSE);
 }
 
+// Checks if line is empty or only whitespace
 int	chk_empty_line(char *line)
 {
 	int	i;

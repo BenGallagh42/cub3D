@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+// Checks if line contains only map characters
 static int	chk_map(char *line)
 {
 	int	i;
@@ -27,6 +28,7 @@ line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
 	return (FALSE);
 }
 
+// Checks if all textures and colors are set before map starts
 static int	chk_map_and_color_set(t_app *app)
 {
 	if (!app->map->no_path || !app->map->so_path || !app->map->we_path || \
@@ -37,6 +39,7 @@ static int	chk_map_and_color_set(t_app *app)
 	return (TRUE);
 }
 
+// Expands map grid to add a new row
 static char	**expand_map_row(t_app *app, int *row)
 {
 	char	**new_grid;
@@ -62,6 +65,7 @@ static char	**expand_map_row(t_app *app, int *row)
 	return (new_grid);
 }
 
+// Adds one line to the map grid
 static int	insert_map_row(t_app *app, char *line)
 {
 	char	**new_grid;
@@ -89,6 +93,7 @@ static int	insert_map_row(t_app *app, char *line)
 	return (SUCCESS);
 }
 
+// Parses map lines — checks order and valid characters
 int	parse_map(t_app *app, char *line)
 {
 	if (!chk_map_and_color_set(app))

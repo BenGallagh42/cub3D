@@ -35,7 +35,6 @@ int	load_textures(t_app *app)
 	app->tex->south = load_texture(app->mlx, app->map->so_path);
 	app->tex->west = load_texture(app->mlx, app->map->we_path);
 	app->tex->east = load_texture(app->mlx, app->map->ea_path);
-
 	if (!app->tex->north || !app->tex->south
 		|| !app->tex->west || !app->tex->east)
 	{

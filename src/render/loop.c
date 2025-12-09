@@ -15,9 +15,9 @@
 // This function runs ONCE per frame — draws everything!
 void	render_frame(t_app *app)
 {
-	draw_background(app);     // Paint sky and floor
-	update_movement(app);     // Move player if keys pressed
-	cast_all_rays(app);       // Draw all walls using raycasting
+	draw_background(app);
+	update_movement(app);
+	cast_all_rays(app);
 }
 
 // MLX42 calls this function 60+ times per second
@@ -26,5 +26,5 @@ void	loop_hook(void *param)
 	t_app	*app;
 
 	app = param;
-	render_frame(app);        // Draw one frame
+	render_frame(app);
 }
