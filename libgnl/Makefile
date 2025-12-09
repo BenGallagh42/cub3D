@@ -19,7 +19,7 @@ CFLAGS = -Wall -Wextra -Werror
 BUFFER_SIZE = 42
 
 # Source files
-SRCS = get_next_line.c
+SRCS = get_next_line.c get_next_line_utils.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
