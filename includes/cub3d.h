@@ -59,9 +59,8 @@
 // Color errors
 # define ERR_COLOR_MISS "Error\nMissing floor or ceiling color\n"
 # define ERR_COLOR_DUP "Error\nDuplicate floor/ceiling color\n"
-# define ERR_COLOR_FORMAT "Error\nColor format must be: R,G,B\n"
-# define ERR_COLOR_RANGE "Error\nRGB values must range from 0 to 255\n"
-# define ERR_COLOR_COUNT "Error\nExactly 3 values required for color\n"
+# define ERR_COLOR_RANGE "Error\nRGB: Values must range from 0 to 255\n"
+# define ERR_COLOR_COUNT "Error\nRGB: Exactly 3 values required for color\n"
 
 // Map errors
 # define ERR_MAP_EMPTY "Error\nMap is empty\n"
