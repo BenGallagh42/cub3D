@@ -6,7 +6,7 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 17:20:40 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/11/12 17:39:39 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/12/09 20:57:34 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,19 @@ static double	get_mouse_rotation(t_app *app, int32_t *center_x)
 // Turn left/right when mouse moves
 void	handle_mouse_rotation(t_app *app)
 {
-	int32_t	center_x;
-	double	delta_x;
-	double	rot_speed;
+	static int	first_call;
+	int32_t		center_x;
+	double		delta_x;
+	double		rot_speed;
 
+	first_call = 1;
 	delta_x = get_mouse_rotation(app, &center_x);
+	if (first_call)
+	{
+		mlx_set_mouse_pos(app->mlx, center_x, SCREEN_HEIGHT / 2);
+		first_call = 0;
+		return ;
+	}
 	if (fabs(delta_x) < 2)
 		return ;
 	rot_speed = delta_x * MOUSE_SENS;

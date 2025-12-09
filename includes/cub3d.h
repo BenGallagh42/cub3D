@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:31:12 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/08 00:38:58 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:18:48 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define SCREEN_HEIGHT 1080
 # define FOV_D 60
 # define FOV_R 1.0471975511963976 // = FOV * PI / 180
-# define MOVE_SPEED 0.15
+# define MOVE_SPEED 0.1
 # define TURN_SPEED 0.08
 # define MOUSE_SENS 0.002
 # define TILE_SIZE 1.0
@@ -59,7 +59,7 @@
 // Color errors
 # define ERR_COLOR_MISS "Error\nMissing floor or ceiling color\n"
 # define ERR_COLOR_DUP "Error\nDuplicate floor/ceiling color\n"
-# define ERR_COLOR_RANGE "Error\nRGB: Values must range from 0 to 255\n"
+# define ERR_COLOR_RANGE "Error\nWrong RGB values\n"
 # define ERR_COLOR_COUNT "Error\nRGB: Exactly 3 values required for color\n"
 
 // Map errors

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:15:52 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/07 23:20:06 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/12/09 20:49:30 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	parser(t_app *app, char *argv)
 		free(line);
 		if (result == FAILURE)
 		{
+			while ((line = get_next_line(fd)))
+				free(line);
 			close(fd);
 			return (FAILURE);
 		}
