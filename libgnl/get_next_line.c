@@ -1,148 +1,174 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kkomasat <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 21:09:31 by kkomasat          #+#    #+#             */
-/*   Updated: 2024/04/13 20:48:14 by khkomasa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*  Description:
-    - Read everything character by character until program reach a newline
-    character and return that line. The prog implements dynamic buffer.
-
-    Return:
-    - Return either the next line of a specific the file descriptor, nor null.
-
-    Guidelines:
-    - https://medium.com/@lannur-s/gnl-c3cff1ee552b
-    - https://www.youtube.com/watch?v=-Mt2FdJjVno
-    - https://www.youtube.com/watch?v=8E9siq7apUU
-*/
-
 #include "get_next_line.h"
 
-/* this function extracts the only new line by using '\n'.
-Moreover, the function guard the return value for the end of file also.
-Please note that the return should include the '\n' but not include the EOF.
-*/
-
-void data_copy(char *data, char *extracted_line)
+char *ft_strchr(const char *s, int c)
 {
-    int i;
-
-    i = 0;
-    while (data[i] && data[i] != '\n')
+    while (*s)
     {
-        extracted_line[i] = data[i];
-        i++;
+        if (*s == (char)c)
+            return ((char *)s);
+        s++;
     }
-    if (data[i] == '\n')
-    {
-        extracted_line[i] = data[i];
-        i++;
-    }
-    extracted_line[i] = '\0';
+    if (*s == (char)c)
+        return ((char *)s);
+    return (NULL);
 }
 
-char *elaborate_data(char *data)
+size_t ft_strlen(const char *s)
 {
-    int i;
-    char *extracted_line;
+    size_t len;
 
-    if (!data[0])
-        return (NULL);
-    i = 0;
-    while (data[i] && data[i] != '\n')
-        i++;
-    if (data[i] == '\n')
-        i++;
-    extracted_line = (char *)malloc((i + 1) * sizeof(char));
-    if (!extracted_line)
-    {
-        free(extracted_line);
-        return (NULL);
-    }
-    data_copy(data, extracted_line);
-    return (extracted_line);
+    len = 0;
+    while (s[len])
+        len++;
+    return (len);
 }
 
-/* this function handling the mix newline character with stash buffer.
-The function return either the remaining buffer nor NULL for EOF case.
-*/
-char *stash_data(char *data, int i, int j)
+char *ft_strjoin(char const *s1, char const *s2)
 {
-    char *stash_data;
+    char *result;
+    size_t i;
+    size_t j;
 
-    while (data[i] && data[i] != '\n')
+    if (!s1 || !s2)
+        return (NULL);
+    result = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+    if (!result)
+        return (NULL);
+    i = 0;
+    while (s1[i])
+    {
+        result[i] = s1[i];
         i++;
-    if (!data[i])
-    {
-        free(data);
-        return (NULL);
     }
-    stash_data = (char *)malloc((ft_strlen(data) + 1 - i) * sizeof(char));
-    if (!stash_data)
+    j = 0;
+    while (s2[j])
     {
-        free(data);
-        free(stash_data);
-        return (NULL);
-    }
-    while (data[i + j + 1])
-    {
-        stash_data[j] = data[i + j + 1];
+        result[i + j] = s2[j];
         j++;
     }
-    stash_data[j] = '\0';
-    free(data);
-    return (stash_data);
+    result[i + j] = '\0';
+    return (result);
 }
 
-/* this function read data from specific file descriptor with adjustable buffer.
-the function returns an accumulated data until meet the nexline or end of file.
-*/
-char *read_from_file(int fd, char *data)
+char *ft_strdup(const char *s)
 {
-    char *buffer;
-    int char_read;
+    char *dup;
+    size_t len;
+    size_t i;
 
-    buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-    if (!buffer)
+    len = ft_strlen(s);
+    dup = malloc(len + 1);
+    if (!dup)
         return (NULL);
-    char_read = 1;
-    while (!ft_strchr(data, '\n') && char_read != 0)
+    i = 0;
+    while (i < len)
     {
-        char_read = read(fd, buffer, BUFFER_SIZE);
-        if (char_read < 0)
+        dup[i] = s[i];
+        i++;
+    }
+    dup[i] = '\0';
+    return (dup);
+}
+
+char *extract_line(char *buffer)
+{
+    char *line;
+    size_t i;
+
+    i = 0;
+    if (!buffer[i])
+        return (NULL);
+    while (buffer[i] && buffer[i] != '\n')
+        i++;
+    line = malloc(i + 2);
+    if (!line)
+        return (NULL);
+    i = 0;
+    while (buffer[i] && buffer[i] != '\n')
+    {
+        line[i] = buffer[i];
+        i++;
+    }
+    if (buffer[i] == '\n')
+    {
+        line[i] = buffer[i];
+        i++;
+    }
+    line[i] = '\0';
+    return (line);
+}
+
+char *update_buffer(char *buffer)
+{
+    char *new_buffer;
+    size_t i;
+    size_t j;
+
+    i = 0;
+    while (buffer[i] && buffer[i] != '\n')
+        i++;
+    if (!buffer[i])
+    {
+        free(buffer);
+        return (NULL);
+    }
+    new_buffer = malloc(ft_strlen(buffer) - i + 1);
+    if (!new_buffer)
+        return (NULL);
+    i++;
+    j = 0;
+    while (buffer[i])
+        new_buffer[j++] = buffer[i++];
+    new_buffer[j] = '\0';
+    free(buffer);
+    return (new_buffer);
+}
+
+char *read_and_store(int fd, char *buffer)
+{
+    char *temp;
+    char *new_buffer;
+    int bytes_read;
+
+    temp = malloc(BUFFER_SIZE + 1);
+    if (!temp)
+        return (NULL);
+    bytes_read = 1;
+    while (!ft_strchr(buffer, '\n') && bytes_read > 0)
+    {
+        bytes_read = read(fd, temp, BUFFER_SIZE);
+        if (bytes_read == -1)
         {
+            free(temp);
             free(buffer);
-            if (data)
-                free(data);
             return (NULL);
         }
-        buffer[char_read] = '\0';
-        data = ft_strjoin(data, buffer);
-        if (data == NULL)
-            return (NULL);
+        temp[bytes_read] = '\0';
+        new_buffer = ft_strjoin(buffer, temp);
+        free(buffer);
+        buffer = new_buffer;
     }
-    free(buffer);
-    return (data);
+    free(temp);
+    return (buffer);
 }
 
 char *get_next_line(int fd)
 {
-    static char *data;
+    static char *buffer;
     char *line;
 
-    if (BUFFER_SIZE <= 0 || fd < 0)
+    if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-    data = read_from_file(fd, data);
-    if (data == NULL)
+    if (!buffer)
+    {
+        buffer = ft_strdup("");
+        if (!buffer)
+            return (NULL);
+    }
+    buffer = read_and_store(fd, buffer);
+    if (!buffer)
         return (NULL);
-    line = elaborate_data(data);
-    data = stash_data(data, 0, 0);
+    line = extract_line(buffer);
+    buffer = update_buffer(buffer);
     return (line);
 }

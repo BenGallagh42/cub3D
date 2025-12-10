@@ -6,7 +6,7 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:31:47 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/12/08 00:27:45 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/09 20:38:13 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int32_t	main(int ac, char **av)
 		return (error_msg(ERR_ARGS), FAILURE);
 	if (init_app(&app) == FAILURE)
 		return (cleanup(&app), FAILURE);
-	if (init_mlx(&app) == FAILURE)
-		return (cleanup(&app), FAILURE);
 	if (parser(&app, av[1]) == FAILURE)
+		return (cleanup(&app), FAILURE);
+	if (init_mlx(&app) == FAILURE)
 		return (cleanup(&app), FAILURE);
 	if (init_player(&app) == FAILURE)
 		return (cleanup(&app), FAILURE);

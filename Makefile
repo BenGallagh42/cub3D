@@ -123,10 +123,6 @@ fclean: clean
 
 re: fclean all
 
-test: all
-	@echo "$(GREEN)Running test map...$(RESET)"
-	@./$(NAME)
-
 norm:
 	@norminette src/ includes/ libft/ | grep -v "OK" || true
 
