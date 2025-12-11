@@ -6,30 +6,30 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:15:45 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/08 00:24:24 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:47:19 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // Checks if line starts with F or C followed by space
-static int chk_color_identifier(char *line, int *i)
+static int	chk_color_identifier(char *line, int *i)
 {
 	skip_spaces(line, i);
-	if (line[*i] == 'F' && (line[*i + 1] == ' ' || line[*i + 1] == '\t' ||
-							line[*i + 1] == '\n' || line[*i + 1] == '\0'))
+	if (line[*i] == 'F' && (line[*i + 1] == ' ' || line[*i + 1] == '\t' || \
+line[*i + 1] == '\n' || line[*i + 1] == '\0'))
 		return (1);
-	if (line[*i] == 'C' && (line[*i + 1] == ' ' || line[*i + 1] == '\t' ||
-							line[*i + 1] == '\n' || line[*i + 1] == '\0'))
+	if (line[*i] == 'C' && (line[*i + 1] == ' ' || line[*i + 1] == '\t' || \
+line[*i + 1] == '\n' || line[*i + 1] == '\0'))
 		return (2);
 	return (0);
 }
 
 // FIXED: strict RGB parsing: rejects "255a", "300"
-static int chk_color_range(const char *str)
+static int	chk_color_range(const char *str)
 {
-	int i;
-	int val;
+	int	i;
+	int	val;
 
 	i = 0;
 	val = 0;
@@ -52,12 +52,12 @@ static int chk_color_range(const char *str)
 }
 
 // Sets floor or ceiling color from "R,G,B" string
-static int add_color(char *line, unsigned int *color, int *is_set)
+static int	add_color(char *line, unsigned int *color, int *is_set)
 {
-	char **rgb;
-	int r;
-	int g;
-	int b;
+	char	**rgb;
+	int		r;
+	int		g;
+	int		b;
 
 	if (*is_set)
 		return (error_msg(ERR_COLOR_DUP), FAILURE);
@@ -78,10 +78,10 @@ static int add_color(char *line, unsigned int *color, int *is_set)
 }
 
 // Parses F and C color lines
-int parse_colors(t_app *app, char *line)
+int	parse_colors(t_app *app, char *line)
 {
-	int i;
-	int identifier_code;
+	int	i;
+	int	identifier_code;
 
 	i = 0;
 	identifier_code = chk_color_identifier(line, &i);
@@ -92,10 +92,10 @@ int parse_colors(t_app *app, char *line)
 	if (!line[i] || line[i] == '\n')
 		return (error_msg(ERR_COLOR_MISS), FAILURE);
 	if (identifier_code == 1)
-		return (add_color(line + i, &app->tex->floor,
-						  &app->tex->floor_set));
+		return (add_color(line + i, &app->tex->floor, \
+&app->tex->floor_set));
 	else if (identifier_code == 2)
-		return (add_color(line + i, &app->tex->ceiling,
-						  &app->tex->ceiling_set));
+		return (add_color(line + i, &app->tex->ceiling, \
+&app->tex->ceiling_set));
 	return (SKIP);
 }
