@@ -6,35 +6,16 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:16:20 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/08 00:02:18 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:37:19 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// Copies string safely
-static char	*ft_strncpy(char *dest, const char *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n && src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
-}
-
 // Stores texture path if not already set and file exists
-static int	add_texture(char **texture_path, char *tmp_path)
+static int add_texture(char **texture_path, char *tmp_path)
 {
-	int	fd;
+	int fd;
 
 	if (*texture_path != NULL)
 		return (free(tmp_path), error_msg(ERR_TEX_DUP), FAILURE);
@@ -49,69 +30,76 @@ static int	add_texture(char **texture_path, char *tmp_path)
 }
 
 // Extracts path after identifier
-static char	*extract_path(char *line)
+static char *extract_path(char *line)
 {
-	int		i;
-	int		len;
-	char	*tmp;
+	int i;
+	int len;
+	char *tmp;
 
 	i = 0;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	len = ft_strlen(line + i);
 	tmp = (char *)ft_calloc(len + 1, sizeof(char));
+	if (!tmp)
+		return (NULL);
 	ft_strncpy(tmp, line + i, len);
 	tmp[len] = '\0';
 	return (tmp);
 }
 
 // Detects NO/SO/WE/EA identifier
-static int	chk_texture(char *line, int *i)
+static int chk_texture_identifier(char *line, int *i)
 {
 	skip_spaces(line, i);
 	if (ft_strlen(line + *i) < 2)
 		return (0);
-	if (line[*i] == 'N' && line[*i + 1] == 'O')
+	if (line[*i] == 'N' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' || line[*i + 2] == '\t'))
 		return (1);
-	if (line[*i] == 'S' && line[*i + 1] == 'O')
+	if (line[*i] == 'S' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' || line[*i + 2] == '\t'))
 		return (2);
-	if (line[*i] == 'W' && line[*i + 1] == 'E')
+	if (line[*i] == 'W' && line[*i + 1] == 'E' && (line[*i + 2] == ' ' || line[*i + 2] == '\t'))
 		return (3);
-	if (line[*i] == 'E' && line[*i + 1] == 'A')
+	if (line[*i] == 'E' && line[*i + 1] == 'A' && (line[*i + 2] == ' ' || line[*i + 2] == '\t'))
 		return (4);
 	return (0);
 }
 
-// Parses texture lines: NO, SO, WE, EA
-int	parse_texture(t_app *app, char *line)
+int identifier_handler(t_app *app, char *path, int identifier_code)
 {
-	int		i;
-	int		identifier_code;
-	char	*path;
+	if (identifier_code == 1)
+		return (add_texture(&app->map->no_path, path));
+	else if (identifier_code == 2)
+		return (add_texture(&app->map->so_path, path));
+	else if (identifier_code == 3)
+		return (add_texture(&app->map->we_path, path));
+	else if (identifier_code == 4)
+		return (add_texture(&app->map->ea_path, path));
+	return (SUCCESS);
+}
+
+// Parses texture lines: NO, SO, WE, EA
+int parse_texture(t_app *app, char *line)
+{
+	int i;
+	int identifier_code;
+	char *path;
 
 	i = 0;
 	path = NULL;
-	identifier_code = chk_texture(line, &i);
+	identifier_code = chk_texture_identifier(line, &i);
 	if (identifier_code)
 	{
 		path = extract_path(line + i + 2);
 		if (!path)
-			return (error_msg(ERR_TEX_MISS), FAILURE);
+			return (error_msg(ERR_ALLOC), FAILURE);
 		ft_trim_trailing(path);
 		if (*path == '\0')
 		{
 			free(path);
 			return (error_msg(ERR_TEX_MISS), FAILURE);
 		}
-		if (identifier_code == 1)
-			return (add_texture(&app->map->no_path, path));
-		else if (identifier_code == 2)
-			return (add_texture(&app->map->so_path, path));
-		else if (identifier_code == 3)
-			return (add_texture(&app->map->we_path, path));
-		else if (identifier_code == 4)
-			return (add_texture(&app->map->ea_path, path));
-		return (SUCCESS);
+		return (identifier_handler(app, path, identifier_code));
 	}
 	return (SKIP);
 }

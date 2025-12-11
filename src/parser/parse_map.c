@@ -6,22 +6,22 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:16:12 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/07 23:57:15 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:23:33 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// Checks if line contains only map characters
-static int	chk_map(char *line)
+// catches lines with no map content (only spaces) by map line checking
+static int chk_at_least_one_map_character(char *line)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (line[i] && line[i] != '\n')
 	{
-		if (line[i] == '0' || line[i] == '1' || line[i] == 'N' || \
-line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
+		if (line[i] == '0' || line[i] == '1' || line[i] == 'N' ||
+			line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
 			return (TRUE);
 		i++;
 	}
@@ -29,10 +29,10 @@ line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
 }
 
 // Checks if all textures and colors are set before map starts
-static int	chk_map_and_color_set(t_app *app)
+static int chk_map_and_color_set(t_app *app)
 {
-	if (!app->map->no_path || !app->map->so_path || !app->map->we_path || \
-!app->map->ea_path)
+	if (!app->map->no_path || !app->map->so_path ||
+		!app->map->we_path || !app->map->ea_path)
 		return (FALSE);
 	if (!app->tex->floor_set || !app->tex->ceiling_set)
 		return (FALSE);
@@ -40,22 +40,24 @@ static int	chk_map_and_color_set(t_app *app)
 }
 
 // Expands map grid to add a new row
-static char	**expand_map_row(t_app *app, int *row)
+static char **expand_map_row(t_app *app, int *row)
 {
-	char	**new_grid;
+	char **new_grid;
+	int old_row;
 
+	old_row = 0;
 	if (app->map->grid)
 	{
-		while (app->map->grid[*row])
-			(*row)++;
+		while (app->map->grid[old_row])
+			(old_row)++;
 	}
-	new_grid = (char **)ft_calloc(*row + 2, sizeof(char *));
+	new_grid = (char **)ft_calloc(old_row + 2, sizeof(char *));
 	if (!new_grid)
-		return (error_msg(ERR_ALLOC), NULL);
+		return (NULL);
 	*row = 0;
 	if (app->map->grid)
 	{
-		while (app->map->grid[*row])
+		while (*row < old_row)
 		{
 			new_grid[*row] = app->map->grid[*row];
 			(*row)++;
@@ -66,11 +68,11 @@ static char	**expand_map_row(t_app *app, int *row)
 }
 
 // Adds one line to the map grid
-static int	insert_map_row(t_app *app, char *line)
+static int insert_map_row(t_app *app, char *line)
 {
-	char	**new_grid;
-	size_t	len;
-	int		row;
+	char **new_grid;
+	size_t len;
+	int row;
 
 	row = 0;
 	new_grid = expand_map_row(app, &row);
@@ -82,7 +84,7 @@ static int	insert_map_row(t_app *app, char *line)
 	new_grid[row] = (char *)ft_calloc(len + 1, sizeof(char));
 	if (!new_grid[row])
 	{
-		free(new_grid);
+		app->map->grid = new_grid;
 		return (error_msg(ERR_ALLOC), FAILURE);
 	}
 	ft_memcpy(new_grid[row], line, len);
@@ -94,15 +96,15 @@ static int	insert_map_row(t_app *app, char *line)
 }
 
 // Parses map lines — checks order and valid characters
-int	parse_map(t_app *app, char *line)
+int parse_map(t_app *app, char *line)
 {
 	if (!chk_map_and_color_set(app))
 		return (error_msg(ERR_MAP_ORDER), FAILURE);
 	if (app->map->grid && chk_empty_line(line))
 		return (error_msg(ERR_MAP_GAP), FAILURE);
-	if (!chk_map(line))
+	if (!chk_at_least_one_map_character(line))
 		return (error_msg(ERR_MAP_CHAR), FAILURE);
-	if (!chk_map_chars(line))
+	if (!chk_invalid_character(line))
 		return (error_msg(ERR_MAP_CHAR), FAILURE);
 	return (insert_map_row(app, line));
 }
