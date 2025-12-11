@@ -6,7 +6,7 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 17:20:40 by bboulmie          #+#    #+#             */
-/*   Updated: 2025/12/09 20:57:34 by bboulmie         ###   ########.fr       */
+/*   Updated: 2025/12/11 15:51:58 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,16 @@ static double	get_mouse_rotation(t_app *app, int32_t *center_x)
 void	handle_mouse_rotation(t_app *app)
 {
 	static int	first_call;
+	static int	initialized;
 	int32_t		center_x;
 	double		delta_x;
 	double		rot_speed;
 
-	first_call = 1;
+	if (!initialized)
+	{
+		first_call = 1;
+		initialized = 1;
+	}
 	delta_x = get_mouse_rotation(app, &center_x);
 	if (first_call)
 	{
