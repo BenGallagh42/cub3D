@@ -45,7 +45,8 @@ PARSER_SRC		=	$(PARSER_DIR)/parser.c \
 					$(RENDER_DIR)/parse_map_utils.c \
 					$(RENDER_DIR)/validate_map.c \
 					$(RENDER_DIR)/parser_utils.c \
-					$(RENDER_DIR)/init_player.c
+					$(RENDER_DIR)/init_player.c \
+					$(RENDER_DIR)/stack_utils.c
 					
 RENDER_SRC      =	$(RENDER_DIR)/init_mlx.c \
                 	$(RENDER_DIR)/draw.c \

@@ -13,10 +13,26 @@
 #include "cub3d.h"
 
 // Parses one line: texture, color, or map — returns SUCCESS/FAILURE/SKIP
-static int	parse_line_by_line(t_app *app, char *line)
+// Rules:
+// Empty lines before map: OK
+// Empty lines inside map: ERROR (gap)
+// Empty lines after map: OK (trailing)
+// Non-empty line after map ended: ERROR
+static int parse_line_by_line(t_app *app, char *line, int *map_ended)
 {
-	int	ret;
+	int ret;
 
+	if (*map_ended)
+	{
+		if (chk_empty_line(line))
+			return (SUCCESS);
+		return (error_msg(ERR_MAP_GAP), FAILURE);
+	}
+	if (app->map->grid && chk_empty_line(line))
+	{
+		*map_ended = 1;
+		return (SUCCESS);
+	}
 	if (chk_empty_line(line))
 		return (SUCCESS);
 	ret = parse_texture(app, line);
@@ -32,12 +48,14 @@ static int	parse_line_by_line(t_app *app, char *line)
 }
 
 // Main parser: opens file, reads line by line, validates at end
-int	parser(t_app *app, char *argv)
+int parser(t_app *app, char *argv)
 {
-	int		fd;
-	char	*line;
-	int		result;
+	int fd;
+	char *line;
+	int result;
+	int map_ended;
 
+	map_ended = 0;
 	if (!chk_extention(argv, ".cub"))
 		return (error_msg(ERR_NOT_CUB), FAILURE);
 	fd = open(argv, O_RDONLY);
@@ -48,7 +66,7 @@ int	parser(t_app *app, char *argv)
 		return (close(fd), error_msg(ERR_MAP_EMPTY), FAILURE);
 	while (line)
 	{
-		result = parse_line_by_line(app, line);
+		result = parse_line_by_line(app, line, &map_ended);
 		free(line);
 		if (result == FAILURE)
 		{

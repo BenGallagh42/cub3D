@@ -12,9 +12,9 @@
 
 #include "cub3d.h"
 
-static t_map	*init_map(void)
+static t_map *init_map(void)
 {
-	t_map	*map;
+	t_map *map;
 
 	map = (t_map *)ft_calloc(1, sizeof(t_map));
 	if (!map)
@@ -32,9 +32,9 @@ static t_map	*init_map(void)
 	return (map);
 }
 
-static t_textures	*init_tex(void)
+static t_textures *init_tex(void)
 {
-	t_textures	*tex;
+	t_textures *tex;
 
 	tex = (t_textures *)ft_calloc(1, sizeof(t_textures));
 	if (!tex)
@@ -50,7 +50,7 @@ static t_textures	*init_tex(void)
 	return (tex);
 }
 
-static int	init_app(t_app *app)
+static int init_app(t_app *app)
 {
 	app->mlx = NULL;
 	app->screen = NULL;
@@ -67,9 +67,9 @@ static int	init_app(t_app *app)
 	return (SUCCESS);
 }
 
-int32_t	main(int ac, char **av)
+int32_t main(int ac, char **av)
 {
-	t_app	app;
+	t_app app;
 
 	if (ac != 2)
 		return (error_msg(ERR_ARGS), FAILURE);
