@@ -6,7 +6,7 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:15:45 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 11:47:19 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:59:43 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	chk_color_range(const char *str)
 		return (-1);
 	while (str[i] && ft_isdigit(str[i]))
 	{
-		if ((val * 10 > INT_MAX) || (val * 10 < INT_MIN))
+		if ((val > INT_MAX / 10) || (val < INT_MIN / 10))
 			return (-1);
 		val = val * 10 + (str[i] - '0');
 		if (val > 255)
