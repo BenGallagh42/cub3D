@@ -98,7 +98,7 @@ int parse_texture(t_app *app, char *line)
 	{
 		path = extract_path(line + i + 2);
 		if (!path)
-			return (error_msg(ERR_TEX_MISS), FAILURE);
+			return (error_msg(ERR_ALLOC), FAILURE);
 		ft_trim_trailing(path);
 		if (*path == '\0')
 		{

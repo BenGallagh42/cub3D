@@ -39,9 +39,11 @@ static int chk_color_range(const char *str)
 		return (-1);
 	while (str[i] && ft_isdigit(str[i]))
 	{
-		if (val > 255)
+		if ((val * 10 > INT_MAX) || (val * 10 < INT_MIN))
 			return (-1);
 		val = val * 10 + (str[i] - '0');
+		if (val > 255)
+			return (-1);
 		i++;
 	}
 	if (str[i] && !ft_isspace(str[i]) && str[i] != '\n' && str[i] != '\0')
