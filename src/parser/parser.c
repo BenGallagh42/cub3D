@@ -6,7 +6,7 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:15:52 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 11:20:45 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:17:05 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 // Empty lines inside map: ERROR (gap)
 // Empty lines after map: OK (trailing)
 // Non-empty line after map ended: ERROR
-static int parse_line_by_line(t_app *app, char *line, int *map_ended)
+static int	parse_line_by_line(t_app *app, char *line, int *map_ended)
 {
-	int ret;
+	int	ret;
 
 	if (*map_ended)
 	{
@@ -47,10 +47,10 @@ static int parse_line_by_line(t_app *app, char *line, int *map_ended)
 	return (error_msg("Invalid line in .cub file\n"), FAILURE);
 }
 
-int get_line_from_file(t_app *app, char *line, int fd)
+int	get_line_from_file(t_app *app, char *line, int fd)
 {
-	int map_ended;
-	int result;
+	int	map_ended;
+	int	result;
 
 	map_ended = 0;
 	while (line)
@@ -75,10 +75,10 @@ int get_line_from_file(t_app *app, char *line, int fd)
 }
 
 // Main parser: opens file, reads line by line, validates at end
-int parser(t_app *app, char *argv)
+int	parser(t_app *app, char *argv)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	if (!chk_extention(argv, ".cub"))
 		return (error_msg(ERR_NOT_CUB), FAILURE);

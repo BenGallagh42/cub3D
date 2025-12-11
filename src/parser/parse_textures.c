@@ -6,16 +6,16 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:16:20 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 11:37:19 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:20:55 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // Stores texture path if not already set and file exists
-static int add_texture(char **texture_path, char *tmp_path)
+static int	add_texture(char **texture_path, char *tmp_path)
 {
-	int fd;
+	int	fd;
 
 	if (*texture_path != NULL)
 		return (free(tmp_path), error_msg(ERR_TEX_DUP), FAILURE);
@@ -30,11 +30,11 @@ static int add_texture(char **texture_path, char *tmp_path)
 }
 
 // Extracts path after identifier
-static char *extract_path(char *line)
+static char	*extract_path(char *line)
 {
-	int i;
-	int len;
-	char *tmp;
+	int		i;
+	int		len;
+	char	*tmp;
 
 	i = 0;
 	while (line[i] == ' ' || line[i] == '\t')
@@ -49,23 +49,27 @@ static char *extract_path(char *line)
 }
 
 // Detects NO/SO/WE/EA identifier
-static int chk_texture_identifier(char *line, int *i)
+static int	chk_texture_identifier(char *line, int *i)
 {
 	skip_spaces(line, i);
 	if (ft_strlen(line + *i) < 2)
 		return (0);
-	if (line[*i] == 'N' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' || line[*i + 2] == '\t'))
+	if (line[*i] == 'N' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' || \
+line[*i + 2] == '\t'))
 		return (1);
-	if (line[*i] == 'S' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' || line[*i + 2] == '\t'))
+	if (line[*i] == 'S' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' || \
+line[*i + 2] == '\t'))
 		return (2);
-	if (line[*i] == 'W' && line[*i + 1] == 'E' && (line[*i + 2] == ' ' || line[*i + 2] == '\t'))
+	if (line[*i] == 'W' && line[*i + 1] == 'E' && (line[*i + 2] == ' ' || \
+line[*i + 2] == '\t'))
 		return (3);
-	if (line[*i] == 'E' && line[*i + 1] == 'A' && (line[*i + 2] == ' ' || line[*i + 2] == '\t'))
+	if (line[*i] == 'E' && line[*i + 1] == 'A' && (line[*i + 2] == ' ' || \
+line[*i + 2] == '\t'))
 		return (4);
 	return (0);
 }
 
-int identifier_handler(t_app *app, char *path, int identifier_code)
+int	identifier_handler(t_app *app, char *path, int identifier_code)
 {
 	if (identifier_code == 1)
 		return (add_texture(&app->map->no_path, path));
@@ -79,11 +83,11 @@ int identifier_handler(t_app *app, char *path, int identifier_code)
 }
 
 // Parses texture lines: NO, SO, WE, EA
-int parse_texture(t_app *app, char *line)
+int	parse_texture(t_app *app, char *line)
 {
-	int i;
-	int identifier_code;
-	char *path;
+	int		i;
+	int		identifier_code;
+	char	*path;
 
 	i = 0;
 	path = NULL;

@@ -6,18 +6,18 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:16:30 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 11:58:35 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:22:57 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // Scans map to count players and store position
-static int scan_map(t_app *app, int player_count)
+static int	scan_map(t_app *app, int player_count)
 {
-	int x;
-	int y;
-	char c;
+	int		x;
+	int		y;
+	char	c;
 
 	y = 0;
 	while (app->map->grid[y])
@@ -41,11 +41,11 @@ static int scan_map(t_app *app, int player_count)
 }
 
 // Creates padded copy of map for flood fill
-static char **copy_and_padding_map(t_app *app)
+static char	**copy_and_padding_map(t_app *app)
 {
-	char **copy;
-	int y;
-	int len;
+	char	**copy;
+	int		y;
+	int		len;
 
 	copy = (char **)ft_calloc(app->map->height + 1, sizeof(char *));
 	if (!copy)
@@ -71,7 +71,7 @@ static char **copy_and_padding_map(t_app *app)
 // -1 = out of bounds or space (map not closed - FAILURE)
 //  0 = wall or already visited (skip)
 //  1 = valid cell to visit
-static int check_cell(char **map, int x, int y, t_app *app)
+static int	check_cell(char **map, int x, int y, t_app *app)
 {
 	if (x < 0 || y < 0 || y >= app->map->height || x >= app->map->width)
 		return (-1);
@@ -83,13 +83,13 @@ static int check_cell(char **map, int x, int y, t_app *app)
 }
 
 // Iterative flood fill to check map is closed
-static int flood_fill_iterative(char **map, int start_x, int start_y,
-								t_app *app)
+static int	flood_fill_iterative(char **map, int start_x, int start_y, \
+t_app *app)
 {
-	t_stack *stack;
-	int x;
-	int y;
-	int check;
+	t_stack	*stack;
+	int		x;
+	int		y;
+	int		check;
 
 	stack = init_stack(app->map->width * app->map->height);
 	if (!stack)
@@ -103,24 +103,24 @@ static int flood_fill_iterative(char **map, int start_x, int start_y,
 		if (check == -1)
 			return (free_stack(stack), FAILURE);
 		if (check == 0)
-			continue;
+			continue ;
 		map[y][x] = 'V';
-		if (!stack_push(stack, x + 1, y) || !stack_push(stack, x - 1, y) ||
-			!stack_push(stack, x, y + 1) || !stack_push(stack, x, y - 1))
+		if (!stack_push(stack, x + 1, y) || !stack_push(stack, x - 1, y) || \
+!stack_push(stack, x, y + 1) || !stack_push(stack, x, y - 1))
 			return (free_stack(stack), FAILURE);
 	}
 	return (free_stack(stack), SUCCESS);
 }
 
 // Validates entire map: textures, colors, player, closed walls
-int validate_map(t_app *app)
+int	validate_map(t_app *app)
 {
-	char **tempo_map;
-	int player_count;
-	int chk_enclosed_wall;
+	char	**tempo_map;
+	int		player_count;
+	int		chk_enclosed_wall;
 
-	if (!app->map->no_path || !app->map->so_path || !app->map->we_path ||
-		!app->map->ea_path)
+	if (!app->map->no_path || !app->map->so_path || !app->map->we_path || \
+!app->map->ea_path)
 		return (error_msg(ERR_TEX_MISS), FAILURE);
 	if (!app->tex->floor_set || !app->tex->ceiling_set)
 		return (error_msg(ERR_COLOR_MISS), FAILURE);
@@ -133,8 +133,8 @@ int validate_map(t_app *app)
 	tempo_map = copy_and_padding_map(app);
 	if (!tempo_map)
 		return (error_msg(ERR_ALLOC), FAILURE);
-	chk_enclosed_wall = flood_fill_iterative(tempo_map, app->map->player_x,
-											 app->map->player_y, app);
+	chk_enclosed_wall = flood_fill_iterative(tempo_map, app->map->player_x, \
+app->map->player_y, app);
 	free_split(tempo_map);
 	if (chk_enclosed_wall == FAILURE)
 		return (error_msg(ERR_MAP_WALL), FAILURE);
