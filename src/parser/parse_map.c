@@ -28,15 +28,15 @@ line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
 	return (FALSE);
 }
 
-// Checks if all textures and colors are set before map starts
+// Returns: 0 = OK, 1 = textures missing, 2 = colors missing
 static int	chk_map_and_color_set(t_app *app)
 {
 	if (!app->map->no_path || !app->map->so_path || \
 !app->map->we_path || !app->map->ea_path)
-		return (FALSE);
+		return (1);  // MODIFIED: return 1 for missing textures
 	if (!app->tex->floor_set || !app->tex->ceiling_set)
-		return (FALSE);
-	return (TRUE);
+		return (2);  // MODIFIED: return 2 for missing colors
+	return (0);  // MODIFIED: return 0 for OK
 }
 
 // Expands map grid to add a new row
@@ -98,8 +98,14 @@ static int	insert_map_row(t_app *app, char *line)
 // Parses map lines — checks order and valid characters
 int	parse_map(t_app *app, char *line)
 {
-	if (!chk_map_and_color_set(app))
-		return (error_msg(ERR_MAP_ORDER), FAILURE);
+	int	check_status;
+
+	// MODIFIED: Get specific error code instead of TRUE/FALSE
+	check_status = chk_map_and_color_set(app);
+	if (check_status == 1)
+		return (error_msg(ERR_TEX_MISS), FAILURE);  // MODIFIED: Missing textures
+	if (check_status == 2)
+		return (error_msg(ERR_COLOR_MISS), FAILURE);  // MODIFIED: Missing colors
 	if (app->map->grid && chk_empty_line(line))
 		return (error_msg(ERR_MAP_GAP), FAILURE);
 	if (!chk_at_least_one_map_character(line))

@@ -64,22 +64,22 @@ static double	get_mouse_rotation(t_app *app, int32_t *center_x)
 // Turn left/right when mouse moves
 void	handle_mouse_rotation(t_app *app)
 {
-	static int	first_call;
-	static int	initialized;
-	int32_t		center_x;
-	double		delta_x;
-	double		rot_speed;
+	static int		skip_frames;
+	static void		*last_mlx;
+	int32_t			center_x;
+	double			delta_x;
+	double			rot_speed;
 
-	if (!initialized)
+	if (app->mlx != last_mlx)
 	{
-		first_call = 1;
-		initialized = 1;
+		skip_frames = 2;
+		last_mlx = app->mlx;
 	}
 	delta_x = get_mouse_rotation(app, &center_x);
-	if (first_call)
+	if (skip_frames > 0)
 	{
 		mlx_set_mouse_pos(app->mlx, center_x, SCREEN_HEIGHT / 2);
-		first_call = 0;
+		skip_frames--;
 		return ;
 	}
 	if (fabs(delta_x) < 2)
