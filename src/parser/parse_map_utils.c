@@ -6,7 +6,7 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 21:26:42 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 11:35:46 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:17:59 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	chk_invalid_character(char *line)
 	{
 		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && \
 line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && \
-line[i] != ' ' && line[i] != '\t')
+line[i] != ' ')
 			return (FALSE);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:16:20 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 11:37:19 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:20:55 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ static int	chk_texture_identifier(char *line, int *i)
 	skip_spaces(line, i);
 	if (ft_strlen(line + *i) < 2)
 		return (0);
-	if (line[*i] == 'N' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' \
-|| line[*i + 2] == '\t'))
+	if (line[*i] == 'N' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' || \
+line[*i + 2] == '\t'))
 		return (1);
-	if (line[*i] == 'S' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' \
-|| line[*i + 2] == '\t'))
+	if (line[*i] == 'S' && line[*i + 1] == 'O' && (line[*i + 2] == ' ' || \
+line[*i + 2] == '\t'))
 		return (2);
-	if (line[*i] == 'W' && line[*i + 1] == 'E' && (line[*i + 2] == ' ' \
-|| line[*i + 2] == '\t'))
+	if (line[*i] == 'W' && line[*i + 1] == 'E' && (line[*i + 2] == ' ' || \
+line[*i + 2] == '\t'))
 		return (3);
-	if (line[*i] == 'E' && line[*i + 1] == 'A' && (line[*i + 2] == ' ' \
-|| line[*i + 2] == '\t'))
+	if (line[*i] == 'E' && line[*i + 1] == 'A' && (line[*i + 2] == ' ' || \
+line[*i + 2] == '\t'))
 		return (4);
 	return (0);
 }

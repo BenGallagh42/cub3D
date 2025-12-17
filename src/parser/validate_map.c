@@ -6,7 +6,7 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:16:30 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 11:58:35 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:22:57 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_app *app)
 		if (check == -1)
 			return (free_stack(stack), FAILURE);
 		if (check == 0)
-			continue;
+			continue ;
 		map[y][x] = 'V';
 		if (!stack_push(stack, x + 1, y) || !stack_push(stack, x - 1, y) || \
 !stack_push(stack, x, y + 1) || !stack_push(stack, x, y - 1))

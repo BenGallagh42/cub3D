@@ -6,7 +6,7 @@
 /*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:31:12 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 11:29:49 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:30:18 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,16 @@
 // STRUCTURES ///
 typedef struct s_map
 {
-	char	**grid;
-	int		width;
-	int		height;
-	int		player_x;
-	int		player_y;
-	char	player_dir;
-	char	*no_path;
-	char	*so_path;
-	char	*we_path;
-	char	*ea_path;
+	char			**grid;
+	int				width;
+	int				height;
+	int				player_x;
+	int				player_y;
+	char			player_dir;
+	char			*no_path;
+	char			*so_path;
+	char			*we_path;
+	char			*ea_path;
 }	t_map;
 
 typedef struct s_textures
@@ -101,37 +101,37 @@ typedef struct s_textures
 
 typedef struct s_player
 {
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
+	double			pos_x;
+	double			pos_y;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
 }	t_player;
 
 typedef struct s_ray
 {
-	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	int		map_x;
-	int		map_y;
-	double	side_dist_x;
-	double	side_dist_y;
-	double	delta_dist_x;
-	double	delta_dist_y;
-	double	perp_wall_dist;
-	int		step_x;
-	int		step_y;
-	int		hit;
-	int		side;
-	int		line_height;
-	int		draw_start;
-	int		draw_end;
-	double	wall_x;
-	int		tex_x;
-	double	tex_pos;
-	double	tex_step;
+	double			camera_x;
+	double			ray_dir_x;
+	double			ray_dir_y;
+	int				map_x;
+	int				map_y;
+	double			side_dist_x;
+	double			side_dist_y;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	double			perp_wall_dist;
+	int				step_x;
+	int				step_y;
+	int				hit;
+	int				side;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	double			wall_x;
+	int				tex_x;
+	double			tex_pos;
+	double			tex_step;
 }	t_ray;
 
 typedef struct s_app
@@ -146,15 +146,15 @@ typedef struct s_app
 
 typedef struct s_point
 {
-	int	x;
-	int	y;
+	int			x;
+	int			y;
 }	t_point;
 
 typedef struct s_stack
 {
-	t_point	*data;
-	int		top;
-	int		capacity;
+	t_point		*data;
+	int			top;
+	int			capacity;
 }	t_stack;
 
 // FUNCTIONS ///
