@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: bboulmie <bboulmie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 22:16:12 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/12/11 12:19:12 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:23:50 by bboulmie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ static int	chk_map_and_color_set(t_app *app)
 {
 	if (!app->map->no_path || !app->map->so_path || \
 !app->map->we_path || !app->map->ea_path)
-		return (1);  // MODIFIED: return 1 for missing textures
+		return (1);
 	if (!app->tex->floor_set || !app->tex->ceiling_set)
-		return (2);  // MODIFIED: return 2 for missing colors
-	return (0);  // MODIFIED: return 0 for OK
+		return (2);
+	return (0);
 }
 
 // Expands map grid to add a new row
@@ -100,12 +100,11 @@ int	parse_map(t_app *app, char *line)
 {
 	int	check_status;
 
-	// MODIFIED: Get specific error code instead of TRUE/FALSE
 	check_status = chk_map_and_color_set(app);
 	if (check_status == 1)
-		return (error_msg(ERR_TEX_MISS), FAILURE);  // MODIFIED: Missing textures
+		return (error_msg(ERR_TEX_MISS), FAILURE);
 	if (check_status == 2)
-		return (error_msg(ERR_COLOR_MISS), FAILURE);  // MODIFIED: Missing colors
+		return (error_msg(ERR_COLOR_MISS), FAILURE);
 	if (app->map->grid && chk_empty_line(line))
 		return (error_msg(ERR_MAP_GAP), FAILURE);
 	if (!chk_at_least_one_map_character(line))
